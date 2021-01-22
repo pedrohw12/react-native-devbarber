@@ -1,10 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {Text, Platform} from 'react-native';
+import {Text, Platform, RefreshControl} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {request, PERMISSIONS} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 
 import Api from '../../Api';
+
+// Images
+import Target from '../../assets/target.png';
+import Search from '../../assets/search.png';
 
 // Components
 import BarberItem from '../../components/BarberItem';
@@ -20,6 +24,8 @@ import {
   LocationInput,
   LocationFinder,
   LoadingIcon,
+  TargetImage,
+  SearchImage,
   ListArea,
 } from './styles';
 
@@ -29,6 +35,7 @@ export default () => {
   const [coords, setCoords] = useState(null);
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleLocationFinder = async () => {
     setCoords(null);
@@ -54,7 +61,14 @@ export default () => {
     setLoading(true);
     setList([]);
 
-    let res = await Api.getBarbers();
+    let lat = null;
+    let lng = null;
+    if (coords) {
+      lat = coords.latitude;
+      lng = coords.longitude;
+    }
+
+    let res = await Api.getBarbers(lat, lng, locationText);
 
     if (!res.error) {
       if (res.loc) {
@@ -72,15 +86,28 @@ export default () => {
     getBarbers();
   }, []);
 
+  const onRefresh = () => {
+    setRefreshing(false);
+    getBarbers();
+  };
+
+  const handleLocationSearch = () => {
+    setCoords({});
+    getBarbers();
+  };
+
   return (
     <Container>
-      <Scroller>
+      <Scroller
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <HeaderArea>
           <HeaderTitle numberOfLines={2}>
             Encontre o seu barbeiro favorito
           </HeaderTitle>
           <SearchButton onPress={() => navigation.navigate('Search')}>
-            <Text style={{color: '#fff'}}>S</Text>
+            <SearchImage source={Search} />
           </SearchButton>
         </HeaderArea>
 
@@ -88,9 +115,10 @@ export default () => {
           <LocationInput
             value={locationText}
             onChangeText={(t) => setLocationText(t)}
+            onEndEditing={handleLocationSearch}
           />
           <LocationFinder onPress={handleLocationFinder}>
-            <Text style={{color: '#fff'}}>F</Text>
+            <TargetImage source={Target} />
           </LocationFinder>
         </LocationArea>
         {loading && <LoadingIcon size="large" color="#fff" />}

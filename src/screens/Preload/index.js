@@ -10,10 +10,10 @@ import {UserContext} from '../../contexts/UserContext';
 import Api from '../../Api';
 
 // Images
-// import BarberLogo from '../../assets/barber.svg';
+import Logo from '../../assets/barber.png';
 
 // Styles
-import {Container, LoadingIcon} from './styles';
+import {Container, LoadingIcon, BarberLogo} from './styles';
 
 export default () => {
   const {dispatch: userDispatch} = useContext(UserContext);
@@ -49,8 +49,7 @@ export default () => {
 
   return (
     <Container>
-      {/* <BarberLogo width="100%" height="160" /> */}
-      <Text>Preload</Text>
+      <BarberLogo source={Logo} />
       <LoadingIcon size="large" color="#fff" />
     </Container>
   );

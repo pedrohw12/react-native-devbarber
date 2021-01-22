@@ -61,3 +61,13 @@ export const ListArea = styled.View`
   margin-top: 30px;
   margin-bottom: 30px;
 `;
+
+export const TargetImage = styled.Image`
+  width: 18px;
+  height: 18px;
+`;
+
+export const SearchImage = styled.Image`
+  width: 25px;
+  height: 25px;
+`;

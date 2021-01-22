@@ -10,3 +10,8 @@ export const Container = styled.SafeAreaView`
 export const LoadingIcon = styled.ActivityIndicator`
   margin-top: 50px;
 `;
+
+export const BarberLogo = styled.Image`
+  width: 160px;
+  height: 150px;
+`;
