@@ -4,6 +4,12 @@ import styled from 'styled-components/native';
 
 import {UserContext} from '../contexts/UserContext';
 
+// Icons
+import Home from '../assets/home.png';
+import Search from '../assets/search-black.png';
+import Today from '../assets/today.png';
+import Heart from '../assets/heart.png';
+
 const TabArea = styled.View`
   height: 60px;
   background-color: #4eadbe;
@@ -33,6 +39,11 @@ const AvatarIcon = styled.Image`
   border-radius: 12px;
 `;
 
+const Icon = styled.Image`
+  width: 30px;
+  height: 30px;
+`;
+
 export default ({state, navigation}) => {
   const {state: user} = useContext(UserContext);
 
@@ -43,22 +54,16 @@ export default ({state, navigation}) => {
   return (
     <TabArea>
       <TabItem onPress={() => goTo('Home')}>
-        <Text style={{color: '#fff', opacity: state.index === 0 ? 1 : 0.5}}>
-          Home
-        </Text>
+        <Icon source={Home} style={{opacity: state.index === 0 ? 1 : 0.5}} />
       </TabItem>
       <TabItem onPress={() => goTo('Search')}>
-        <Text style={{color: '#fff', opacity: state.index === 1 ? 1 : 0.5}}>
-          Search
-        </Text>
+        <Icon source={Search} style={{opacity: state.index === 1 ? 1 : 0.5}} />
       </TabItem>
       <TabItemCenter onPress={() => goTo('Appointments')}>
-        <Text style={{color: '#4eadbe'}}>Today</Text>
+        <Icon source={Today} />
       </TabItemCenter>
       <TabItem onPress={() => goTo('Favorites')}>
-        <Text style={{color: '#fff', opacity: state.index === 3 ? 1 : 0.5}}>
-          Fav
-        </Text>
+        <Icon source={Heart} style={{opacity: state.index === 3 ? 1 : 0.5}} />
       </TabItem>
       <TabItem onPress={() => goTo('Profile')}>
         {user.avatar ? (
