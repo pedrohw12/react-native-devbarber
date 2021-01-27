@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, Platform, RefreshControl} from 'react-native';
+import {Platform, RefreshControl} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {request, PERMISSIONS} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
